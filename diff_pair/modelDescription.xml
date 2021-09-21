@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<fmiModelDescription fmiVersion="2.0" modelName="diff_pair"
+	guid="{fa050d5c-11e5-4b3c-a861-ba9adaed4473}" numberOfEventIndicators="0">
+
+
+	<CoSimulation modelIdentifier="diff_pair"
+		canHandleVariableCommunicationStepSize="true" />
+
+	<LogCategories>
+		<Category name="logAll" />
+		<Category name="logError" />
+		<Category name="logFmiCall" />
+		<Category name="logEvent" />
+	</LogCategories>
+
+	<ModelVariables>
+
+
+		<ScalarVariable name="out_r_diff" valueReference="1" causality="output" variability="continuous"
+			initial="approx">
+			<Real start="0" />
+		</ScalarVariable>
+		<ScalarVariable name="out_i_diff" valueReference="2" causality="output" variability="discrete"
+			initial="calculated">
+			<Integer  />
+		</ScalarVariable>
+		<ScalarVariable name="out_b_diff" valueReference="3" causality="output" variability="discrete"
+			initial="calculated">
+			<Boolean  />
+		</ScalarVariable>
+		<ScalarVariable name="out_s_diff" valueReference="4" causality="output" variability="discrete"
+			initial="calculated">
+			<String  />
+		</ScalarVariable>
+
+
+
+		<ScalarVariable name="in_r_a" valueReference="5" causality="input" variability="continuous">
+			<Real start="0" />
+		</ScalarVariable>
+		<ScalarVariable name="in_r_b" valueReference="6" causality="input" variability="continuous">
+			<Real start="0" />
+		</ScalarVariable>
+
+		<ScalarVariable name="in_i_a" valueReference="7" causality="input" variability="discrete">
+			<Integer start="0" />
+		</ScalarVariable>
+		<ScalarVariable name="in_i_b" valueReference="8" causality="input" variability="discrete">
+			<Integer start="0" />
+		</ScalarVariable>
+
+		<ScalarVariable name="in_b_a" valueReference="9" causality="input" variability="discrete">
+			<Boolean start="0" />
+		</ScalarVariable>
+		<ScalarVariable name="in_b_b" valueReference="10" causality="input" variability="discrete">
+			<Boolean start="0" />
+		</ScalarVariable>
+
+		<ScalarVariable name="in_s_a" valueReference="11" causality="input" variability="discrete">
+			<String start="" />
+		</ScalarVariable>
+		<ScalarVariable name="in_s_b" valueReference="12" causality="input" variability="discrete">
+			<String start="" />
+		</ScalarVariable>
+	</ModelVariables>
+
+	<ModelStructure>
+		<Outputs>
+			<Unknown index="1" dependencies="" />
+			<Unknown index="2" dependencies="" />
+			<Unknown index="3" dependencies="" />
+			<Unknown index="4" dependencies="" />
+		</Outputs>
+		<Derivatives>
+			<Unknown index="1" />
+		</Derivatives>
+		<InitialUnknowns>
+			<Unknown index="1" />
+		</InitialUnknowns>
+	</ModelStructure>
+
+</fmiModelDescription>
