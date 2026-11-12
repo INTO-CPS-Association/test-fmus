@@ -3,7 +3,7 @@
 Paths below are relative to this repository. Unless otherwise noted, the
 Maestro origin is relative to the root of `INTO-CPS-Association/maestro`.
 The output archive keeps the same FMI version, group and model path. The default
-build contains all rows except the explicitly marked beta fixture.
+build contains all rows.
 
 ## FMI 2
 
@@ -34,6 +34,7 @@ build contains all rows except the explicitly marked beta fixture.
 | `fmi2/mass-spring-damper/MassSpringDamper2` | `maestro/src/test/resources/mass_spring_damper/MassSpringDamper2.fmu` |
 | `fmi2/three-tank/threewatertank1` | `maestro/src/test/resources/three_tank/threewatertank1.fmu` |
 | `fmi2/three-tank/threewatertank2` | `maestro/src/test/resources/three_tank/threewatertank2.fmu` |
+| `fmi2/three-tank/WaterTankController_Standalone` | `maestro/src/test/resources/three_tank/WaterTankController_Standalone.fmu` (embedded C sources; `.vdmrt` files are retained as regeneration documentation) |
 
 ## FMI 3
 
@@ -42,7 +43,7 @@ build contains all rows except the explicitly marked beta fixture.
 | `fmi3/reference/BouncingBall` | `modelica/Reference-FMUs` release `v0.0.23` |
 | `fmi3/reference/Feedthrough` | `modelica/Reference-FMUs` release `v0.0.23` |
 | `fmi3/siggen-feedthrough/SignalGenerator` | `maestro/src/test/resources/fmi3/reference/siggen-feedthrough/SignalGenerator.fmu` |
-| `fmi3/jni/fmi3functiontest` | `org.intocps.maestro.fmi`, tag `Release/1.5.0`, `jnifmuapi/src/test/resources/fmus/fmi3/fmi3functiontest`. Beta fixture, excluded from default build and release. |
+| `fmi3/jni/fmi3functiontest` | `org.intocps.maestro.fmi`, tag `Release/1.5.0`, `jnifmuapi/src/test/resources/fmus/fmi3/fmi3functiontest`. Included in the default build and release with final FMI `3.0` metadata. |
 
 ## Variants And Changes
 
@@ -58,6 +59,9 @@ build contains all rows except the explicitly marked beta fixture.
   `rollback-end` were changed from hyphenated values to `watertank_c` or
   `rollback_end`; the binary names match. Both rollback C++ sources include
   `stdint.h` for GCC.
+- The three-tank standalone controller is built from its embedded C sources and
+  VDM runtime. Its `.vdmrt` files are included only as source/regeneration
+  documentation; the FMU does not require VDM-RT at runtime.
 - JNI metadata uses the tokens expected by the native source. The FMI 2
   function-test `maxOutputDerivativeOrder` was corrected from `false` to `0`.
 - The OpenModelica sensors retain fixes for missing `ctype.h` and `debugString`

@@ -70,11 +70,12 @@ it does not itself publish a release.
 ## Scope And Provenance
 
 Three Overture standalone exports containing `.vdmrt` files are excluded.
-The JNI FMI 3 function test is retained under `fmi3/jni`, but defaults to off:
-its model description declares `3.0-beta.3`, not final FMI 3. Enable it only
-for legacy testing with `-DFMU_INCLUDE_LEGACY_BETA=ON`. It is not included in
-the combined workflow artifacts. Its token was changed to match the JNI test
-source; the original Maestro archive declares a different token.
+The JNI FMI 3 function test under `fmi3/jni` is included in the default build
+and release for Maestro testing. Its model description declares final FMI `3.0`
+and the fixture builds against the FMI Standard 3.0.2 headers. Disable it for a
+build without the JNI function-test fixture with
+`-DFMU_INCLUDE_FMI3_FUNCTIONTEST=OFF`. Its token matches the JNI test source; the
+original Maestro archive declares a different token.
 
 See [FMU-CATALOG.md](FMU-CATALOG.md) for individual model origins, preserved
 variants and known changes.
@@ -84,7 +85,7 @@ variants and known changes.
 | `fmi2/legacy` | Original `test-fmus` master-branch projects |
 | Tanks, controllers, rollback models, pump, sink and mass-spring-dampers | Maestro test archives and the historical `INTO-CPS-Association/test-fmus` development branch |
 | Robot body and sensors, three-tank models | Maestro test archives |
-| FMI 2 and experimental FMI 3 JNI tests | `INTO-CPS-Association/org.intocps.maestro.fmi`, tag `Release/1.5.0` |
+| FMI 2 and FMI 3 JNI test fixtures | `INTO-CPS-Association/org.intocps.maestro.fmi`, tag `Release/1.5.0` |
 | FMI 3 BouncingBall and Feedthrough | `modelica/Reference-FMUs`, tag `v0.0.23` |
 | FMI 3 SignalGenerator | Maestro test archive, Reference-FMUs-derived |
 | OpenModelica runtime | `OpenModelica/OMCompiler`, commit `d19f8168993148b01716ef183b2877ecd44b006d` |
@@ -105,15 +106,17 @@ Source-backed archives without VDM-RT are represented in the catalog, with
 distinct controller metadata retained. This is not a complete replacement for
 all Maestro test inputs. The following are not in the default release:
 
-- The standalone and interpreter-based controllers with `.vdmrt` files,
-	including the line-follower, ESA, three-tank and GA controllers, are excluded.
+- The standalone and interpreter-based controllers that require VDM-RT at
+	runtime, including the line-follower, ESA and GA controllers, are excluded.
+	The three-tank standalone controller is included because its FMU embeds the
+	generated C implementation; its `.vdmrt` files are documentation only.
 - The `periodic_clock` and `sinewave_array` FMI 3 archives contain only Linux
 	binaries. They were exported by Altair Activate without model sources.
 - The pump and sink `mocked_fmus` used by code-generation tests have no native
 	implementation sources; they are test doubles, not rebuilt simulation FMUs.
-- The binary-only FMI 3 function-test archive has a source-backed counterpart in
-	`fmi3/jni`, but it is a beta fixture with a changed token and is opt-in as
-	described above.
+- The binary-only FMI 3 function-test archive is replaced by the source-backed
+	`fmi3/jni/fmi3functiontest` fixture in the default release. The released test
+	model description declares FMI `3.0` and uses the pinned 3.0.2 headers.
 - The line-follower repository's `3DanimationFMU.fmu` also has no source files;
 	its two controllers contain VDM-RT. Its other six robot FMUs are included.
 
