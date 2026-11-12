@@ -26,7 +26,7 @@ jobs:
             arch: X64
     runs-on: ${{ matrix.runner }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Verify runner architecture
         shell: bash
         env:
@@ -62,7 +62,7 @@ jobs:
           cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
           cmake --build build --parallel 4
           ctest --test-dir build --output-on-failure --parallel 4
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: fmus-${{ matrix.name }}
           path: build/fmus/
@@ -72,20 +72,20 @@ jobs:
     needs: build
     runs-on: ubuntu-26.04
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
+      - uses: actions/checkout@v7
+      - uses: actions/download-artifact@v8
         with:
           name: fmus-linux
           path: artifacts/linux
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           name: fmus-windows
           path: artifacts/windows
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           name: fmus-mac-arm
           path: artifacts/mac-arm
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           name: fmus-mac-intel
           path: artifacts/mac-intel
@@ -95,12 +95,12 @@ jobs:
           -DOUTPUT_ROOT="$PWD/dist"
           -DWORK_ROOT="$PWD/merge-work"
           -P cmake/MergeFmus.cmake
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: test-fmus-all-platforms
           path: dist/
           if-no-files-found: error
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
       - name: Report FMU conformance findings
@@ -109,7 +109,7 @@ jobs:
           set -euo pipefail
           python -m pip install 'fmpy==0.3.32'
           bash scripts/fmu-diagnostics.sh dist > fmu-diagnostics.md
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: fmu-conformance-diagnostics
           path: fmu-diagnostics.md
