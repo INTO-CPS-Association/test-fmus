@@ -3,9 +3,10 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: Release version, for example 1.0.0
-        required: true
+        description: Leave blank to select the next patch version automatically
+        required: false
         type: string
+        default: ''
 
 permissions:
   contents: read
@@ -29,15 +30,31 @@ jobs:
           name: fmu-conformance-diagnostics
           path: diagnostics
       - name: Prepare release assets
+        id: prepare
         shell: bash
         env:
           RELEASE_VERSION: ${{ inputs.version }}
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
         run: |
           set -euo pipefail
+          if [[ -z "${RELEASE_VERSION//[[:space:]]/}" ]]; then
+            latest_version=$(gh release list --repo "$GH_REPO" --limit 100 --json tagName --jq '.[].tagName' \
+              | sed -nE 's#^Release/([0-9]+\.[0-9]+\.[0-9]+)$#\1#p' \
+              | sort -V | tail -n 1)
+            if [[ -z "$latest_version" ]]; then
+              RELEASE_VERSION=0.0.1
+            else
+              IFS=. read -r major minor patch <<< "$latest_version"
+              RELEASE_VERSION="${major}.${minor}.$((patch + 1))"
+            fi
+          fi
           if [[ ! "$RELEASE_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+([.-][0-9A-Za-z.-]+)?$ ]]; then
             echo 'Expected a version such as 1.0.0 or 1.0.0-rc.1' >&2
             exit 1
           fi
+          echo "version=$RELEASE_VERSION" >> "$GITHUB_OUTPUT"
+          echo "Selected release version: $RELEASE_VERSION" >> "$GITHUB_STEP_SUMMARY"
           mkdir release-assets
           while IFS= read -r -d '' file; do
             relative="${file#dist/}"
@@ -54,7 +71,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
-          RELEASE_VERSION: ${{ inputs.version }}
+          RELEASE_VERSION: ${{ steps.prepare.outputs.version }}
         run: |
           set -euo pipefail
           tag="Release/$RELEASE_VERSION"
