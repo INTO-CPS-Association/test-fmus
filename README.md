@@ -9,7 +9,7 @@ prebuilt binaries. The former master-branch models are retained under
 ## Build
 
 Requirements: CMake 3.21 or newer, Git, a C/C++ toolchain, and network access
-to GitHub on the first configure. On Windows use the MSYS2 MINGW64 environment
+to GitHub on the first configure. On Windows use the MSYS2 UCRT64 environment
 with GCC, CMake and Ninja. On macOS, install the Xcode command line tools.
 
 ```sh
@@ -37,9 +37,13 @@ libraries assembled inside it.
 FMI 2 uses `linux64`, `win64` and `darwin64`; FMI 3 uses platform tuples.
 The macOS FMI 2 library is universal. The per-platform artifacts are also
 available for diagnosing individual builds.
+Windows CI extracts and loads every packaged FMU with MSYS2 removed from
+`PATH`, checking that its library can be loaded without MSYS2 runtime DLLs.
 
 The Linux build uses Ubuntu 22.04's glibc baseline; older Linux systems may
-still be incompatible. The assembly and release jobs do not compile binaries.
+still be incompatible. Windows binaries use the Universal C Runtime, included
+with Windows 10 and later and Windows Server 2016 and later. The assembly and
+release jobs do not compile binaries.
 
 ## Release
 

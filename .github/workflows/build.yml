@@ -37,17 +37,17 @@ jobs:
             echo "Expected runner architecture $EXPECTED_ARCH, got $ACTUAL_ARCH" >&2
             exit 1
           fi
-      - name: Install MinGW
+      - name: Install UCRT64 toolchain
         if: runner.os == 'Windows'
         uses: msys2/setup-msys2@v2
         with:
-          msystem: MINGW64
+          msystem: UCRT64
           update: true
           install: >-
             git
-            mingw-w64-x86_64-gcc
-            mingw-w64-x86_64-cmake
-            mingw-w64-x86_64-ninja
+            mingw-w64-ucrt-x86_64-gcc
+            mingw-w64-ucrt-x86_64-cmake
+            mingw-w64-ucrt-x86_64-ninja
       - name: Configure, build and test
         if: runner.os != 'Windows'
         shell: bash
@@ -62,6 +62,37 @@ jobs:
           cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
           cmake --build build --parallel 4
           ctest --test-dir build --output-on-failure --parallel 4
+      - name: Test packaged FMUs without MSYS2 on PATH
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $smoke = (Resolve-Path 'build/fmu_smoke.exe').Path
+          $fmus = @(Get-ChildItem 'build/fmus' -Recurse -File -Filter '*.fmu')
+          if ($fmus.Count -ne 28) { throw "Expected 28 FMUs, found $($fmus.Count)" }
+          $env:PATH = "$env:SystemRoot\System32;$env:SystemRoot"
+          foreach ($fmu in $fmus) {
+            $directory = Join-Path $env:RUNNER_TEMP ([guid]::NewGuid().ToString())
+            [System.IO.Compression.ZipFile]::ExtractToDirectory($fmu.FullName, $directory)
+            $description = [System.Xml.XmlDocument]::new()
+            $description.Load((Join-Path $directory 'modelDescription.xml'))
+            $version = $description.DocumentElement.GetAttribute('fmiVersion')
+            $identifier = $description.SelectSingleNode('/fmiModelDescription/CoSimulation').GetAttribute('modelIdentifier')
+            if ($version -eq '2.0') {
+              $platform = 'win64'
+              $major = '2'
+            } elseif ($version -eq '3.0') {
+              $platform = 'x86_64-windows'
+              $major = '3'
+            } else {
+              throw "Unsupported FMI version $version in $($fmu.FullName)"
+            }
+            $binary = Join-Path $directory "binaries/$platform/$identifier.dll"
+            Write-Output "Loading $($fmu.FullName) without MSYS2 on PATH"
+            & $smoke $binary $major
+            if ($LASTEXITCODE -ne 0) { throw "Failed to load $($fmu.FullName) without MSYS2" }
+            Remove-Item -Recurse -Force $directory
+          }
       - uses: actions/upload-artifact@v7
         with:
           name: fmus-${{ matrix.name }}
