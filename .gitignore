@@ -1,2 +1,9 @@
 build
+/build-*/
+!/build-support/
+dist/
+merge-work/
+artifacts/
 .DS_Store
+__MACOSX/
+._*

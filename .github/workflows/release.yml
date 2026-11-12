@@ -1,0 +1,61 @@
+name: Release FMUs
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Release version, for example 1.0.0
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    uses: ./.github/workflows/build.yml
+
+  release:
+    needs: build
+    runs-on: ubuntu-26.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: test-fmus-all-platforms
+          path: dist
+      - uses: actions/download-artifact@v8
+        with:
+          name: fmu-conformance-diagnostics
+          path: diagnostics
+      - name: Prepare release assets
+        shell: bash
+        env:
+          RELEASE_VERSION: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+          if [[ ! "$RELEASE_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+([.-][0-9A-Za-z.-]+)?$ ]]; then
+            echo 'Expected a version such as 1.0.0 or 1.0.0-rc.1' >&2
+            exit 1
+          fi
+          mkdir release-assets
+          while IFS= read -r -d '' file; do
+            relative="${file#dist/}"
+            asset="${relative//\//--}"
+            if [[ -e "release-assets/$asset" ]]; then
+              echo "Duplicate release asset: $asset" >&2
+              exit 1
+            fi
+            cp "$file" "release-assets/$asset"
+          done < <(find dist -type f -name '*.fmu' -print0)
+          (cd dist && cmake -E tar cf "$GITHUB_WORKSPACE/release-assets/test-fmus.zip" --format=zip fmi2 fmi3)
+      - name: Create GitHub release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_VERSION: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+          tag="Release/$RELEASE_VERSION"
+          gh release create "$tag" release-assets/* --target "$GITHUB_SHA" --title "$tag" --notes-file diagnostics/fmu-diagnostics.md --generate-notes

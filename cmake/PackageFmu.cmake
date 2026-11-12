@@ -1,0 +1,12 @@
+file(REMOVE_RECURSE "${STAGE}")
+file(MAKE_DIRECTORY "${STAGE}/binaries/${PLATFORM}")
+file(COPY "${MODEL}/" DESTINATION "${STAGE}" PATTERN "binaries" EXCLUDE)
+file(COPY "${BINARY}" DESTINATION "${STAGE}/binaries/${PLATFORM}")
+get_filename_component(output_directory "${OUTPUT}" DIRECTORY)
+file(MAKE_DIRECTORY "${output_directory}")
+file(GLOB entries RELATIVE "${STAGE}" "${STAGE}/*")
+execute_process(COMMAND "${CMAKE_COMMAND}" -E tar cf "${OUTPUT}" --format=zip ${entries}
+    WORKING_DIRECTORY "${STAGE}" RESULT_VARIABLE result)
+if(NOT result EQUAL 0)
+    message(FATAL_ERROR "Failed to package ${OUTPUT}")
+endif()
