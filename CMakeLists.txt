@@ -130,6 +130,7 @@ function(add_fmu path identifier recipe)
     endif()
     set_target_properties(${target} PROPERTIES
         PREFIX "" OUTPUT_NAME "${identifier}"
+        ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib/${target}"
         LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib/${target}"
         RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib/${target}")
     if(APPLE AND path MATCHES "^fmi2/" AND FMU_MACOS_UNIVERSAL_FMI2)
