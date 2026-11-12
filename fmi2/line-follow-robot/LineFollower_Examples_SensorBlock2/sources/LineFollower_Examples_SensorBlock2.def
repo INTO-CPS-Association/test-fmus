@@ -1,0 +1,54 @@
+EXPORTS
+  ;***************************************************
+  ;Common Functions
+  ;****************************************************
+  LineFollower_Examples_SensorBlock2_fmiGetTypesPlatform @1
+  LineFollower_Examples_SensorBlock2_fmiGetVersion @2
+  LineFollower_Examples_SensorBlock2_fmiSetDebugLogging @3
+  LineFollower_Examples_SensorBlock2_fmiInstantiate @4
+  LineFollower_Examples_SensorBlock2_fmiFreeInstance @5
+  LineFollower_Examples_SensorBlock2_fmiSetupExperiment @6
+  LineFollower_Examples_SensorBlock2_fmiEnterInitializationMode @7
+  LineFollower_Examples_SensorBlock2_fmiExitInitializationMode @8
+  LineFollower_Examples_SensorBlock2_fmiTerminate @9
+  LineFollower_Examples_SensorBlock2_fmiReset @10
+  LineFollower_Examples_SensorBlock2_fmiGetReal @11
+  LineFollower_Examples_SensorBlock2_fmiGetInteger @12
+  LineFollower_Examples_SensorBlock2_fmiGetBoolean @13
+  LineFollower_Examples_SensorBlock2_fmiGetString @14
+  LineFollower_Examples_SensorBlock2_fmiSetReal @15
+  LineFollower_Examples_SensorBlock2_fmiSetInteger @16
+  LineFollower_Examples_SensorBlock2_fmiSetBoolean @17
+  LineFollower_Examples_SensorBlock2_fmiSetString @18
+  LineFollower_Examples_SensorBlock2_fmiGetFMUstate @19
+  LineFollower_Examples_SensorBlock2_fmiSetFMUstate @20
+  LineFollower_Examples_SensorBlock2_fmiFreeFMUstate @21
+  LineFollower_Examples_SensorBlock2_fmiSerializedFMUstateSize @22
+  LineFollower_Examples_SensorBlock2_fmiSerializeFMUstate @23
+  LineFollower_Examples_SensorBlock2_fmiDeSerializeFMUstate @24
+  LineFollower_Examples_SensorBlock2_fmiGetDirectionalDerivative @25
+  ;***************************************************
+  ;Functions for FMI for Model Exchange
+  ;****************************************************
+  LineFollower_Examples_SensorBlock2_fmiEnterEventMode @26
+  LineFollower_Examples_SensorBlock2_fmiNewDiscreteStates @27
+  LineFollower_Examples_SensorBlock2_fmiEnterContinuousTimeMode @28
+  LineFollower_Examples_SensorBlock2_fmiCompletedIntegratorStep @29
+  LineFollower_Examples_SensorBlock2_fmiSetTime @30
+  LineFollower_Examples_SensorBlock2_fmiSetContinuousStates @31
+  LineFollower_Examples_SensorBlock2_fmiGetDerivatives @32
+  LineFollower_Examples_SensorBlock2_fmiGetEventIndicators @33
+  LineFollower_Examples_SensorBlock2_fmiGetContinuousStates @34
+  LineFollower_Examples_SensorBlock2_fmiGetNominalsOfContinuousStates @35
+  ;***************************************************
+  ;Functions for FMI for Co-Simulation
+  ;****************************************************
+  LineFollower_Examples_SensorBlock2_fmiSetRealInputDerivatives @36
+  LineFollower_Examples_SensorBlock2_fmiGetRealOutputDerivatives @37
+  LineFollower_Examples_SensorBlock2_fmiDoStep @38
+  LineFollower_Examples_SensorBlock2_fmiCancelStep @39
+  LineFollower_Examples_SensorBlock2_fmiGetStatus @40
+  LineFollower_Examples_SensorBlock2_fmiGetRealStatus @41
+  LineFollower_Examples_SensorBlock2_fmiGetIntegerStatus @42
+  LineFollower_Examples_SensorBlock2_fmiGetBooleanStatus @43
+  LineFollower_Examples_SensorBlock2_fmiGetStringStatus @44

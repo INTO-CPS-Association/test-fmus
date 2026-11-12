@@ -1,0 +1,116 @@
+name: Build FMUs
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  build:
+    name: Build (${{ matrix.runner }}, ${{ matrix.arch }})
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: linux
+            runner: ubuntu-22.04
+            arch: X64
+          - name: windows
+            runner: windows-2025
+            arch: X64
+          - name: mac-arm
+            runner: macos-26
+            arch: ARM64
+          - name: mac-intel
+            runner: macos-26-intel
+            arch: X64
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify runner architecture
+        shell: bash
+        env:
+          EXPECTED_ARCH: ${{ matrix.arch }}
+          ACTUAL_ARCH: ${{ runner.arch }}
+        run: |
+          if [[ "$ACTUAL_ARCH" != "$EXPECTED_ARCH" ]]; then
+            echo "Expected runner architecture $EXPECTED_ARCH, got $ACTUAL_ARCH" >&2
+            exit 1
+          fi
+      - name: Install MinGW
+        if: runner.os == 'Windows'
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          update: true
+          install: >-
+            git
+            mingw-w64-x86_64-gcc
+            mingw-w64-x86_64-cmake
+            mingw-w64-x86_64-ninja
+      - name: Configure, build and test
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+          cmake --build build --parallel 4
+          ctest --test-dir build --output-on-failure --parallel 4
+      - name: Configure, build and test on Windows
+        if: runner.os == 'Windows'
+        shell: msys2 {0}
+        run: |
+          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+          cmake --build build --parallel 4
+          ctest --test-dir build --output-on-failure --parallel 4
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fmus-${{ matrix.name }}
+          path: build/fmus/
+          if-no-files-found: error
+
+  assemble:
+    needs: build
+    runs-on: ubuntu-26.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: fmus-linux
+          path: artifacts/linux
+      - uses: actions/download-artifact@v4
+        with:
+          name: fmus-windows
+          path: artifacts/windows
+      - uses: actions/download-artifact@v4
+        with:
+          name: fmus-mac-arm
+          path: artifacts/mac-arm
+      - uses: actions/download-artifact@v4
+        with:
+          name: fmus-mac-intel
+          path: artifacts/mac-intel
+      - name: Assemble multi-platform FMUs
+        run: >-
+          cmake -DINPUT_ROOT="$PWD/artifacts"
+          -DOUTPUT_ROOT="$PWD/dist"
+          -DWORK_ROOT="$PWD/merge-work"
+          -P cmake/MergeFmus.cmake
+      - uses: actions/upload-artifact@v4
+        with:
+          name: test-fmus-all-platforms
+          path: dist/
+          if-no-files-found: error
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Report FMU conformance findings
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install 'fmpy==0.3.32'
+          bash scripts/fmu-diagnostics.sh dist > fmu-diagnostics.md
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fmu-conformance-diagnostics
+          path: fmu-diagnostics.md
+          if-no-files-found: error

@@ -1,0 +1,641 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fmiModelDescription
+  fmiVersion="2.0"
+  modelName="LineFollower.Examples.SensorBlock1"
+  guid="{48f5ecc4-4f49-42d0-94b1-2e7bed456b9c}"
+  description=""
+  generationTool="OpenModelica Compiler OpenModelica v1.11.0-dev-207-gd19f816"
+  generationDateAndTime="2016-11-14T03:32:27Z"
+  variableNamingConvention="structured"
+  numberOfEventIndicators="6">
+  <CoSimulation
+    modelIdentifier="LineFollower_Examples_SensorBlock1"
+    needsExecutionTool="false"
+    canHandleVariableCommunicationStepSize="true"
+    canInterpolateInputs="false"
+    maxOutputDerivativeOrder="1"
+    canRunAsynchronuously = "false"
+    canBeInstantiatedOnlyOncePerProcess="false"
+    canNotUseMemoryManagementFunctions="false"
+    canGetAndSetFMUstate="false"
+    canSerializeFMUstate="false"
+     />
+  <TypeDefinitions>
+    <SimpleType name="Modelica.Blocks.Types.Smoothness">
+      <Enumeration>
+        <Item name="LinearSegments" value="1"/>
+        <Item name="ContinuousDerivative" value="2"/>
+        <Item name="ConstantSegments" value="3"/>
+        <Item name="MonotoneContinuousDerivative1" value="4"/>
+        <Item name="MonotoneContinuousDerivative2" value="5"/>
+      </Enumeration>
+    </SimpleType>
+  </TypeDefinitions>
+  <LogCategories>
+    <Category name="logEvents" />
+    <Category name="logSingularLinearSystems" />
+    <Category name="logNonlinearSystems" />
+    <Category name="logDynamicStateSelection" />
+    <Category name="logStatusWarning" />
+    <Category name="logStatusDiscard" />
+    <Category name="logStatusError" />
+    <Category name="logStatusFatal" />
+    <Category name="logStatusPending" />
+    <Category name="logAll" />
+    <Category name="logFmi2Call" />
+  </LogCategories>
+  <DefaultExperiment startTime="0.0" stopTime="1.0" tolerance="1e-006"/>
+  <ModelVariables>
+  <!-- Index of variable = "1" -->
+  <ScalarVariable
+    name="lf_1_sensor_reading"
+    valueReference="0"
+    variability="continuous"
+    causality="output"
+    initial="calculated">
+    <Real/>
+  </ScalarVariable>
+  <!-- Index of variable = "2" -->
+  <ScalarVariable
+    name="robot_theta"
+    valueReference="1"
+    variability="continuous"
+    causality="input"
+    >
+    <Real start="0.0"/>
+  </ScalarVariable>
+  <!-- Index of variable = "3" -->
+  <ScalarVariable
+    name="robot_x"
+    valueReference="2"
+    variability="continuous"
+    causality="input"
+    >
+    <Real start="0.0"/>
+  </ScalarVariable>
+  <!-- Index of variable = "4" -->
+  <ScalarVariable
+    name="robot_y"
+    valueReference="3"
+    variability="continuous"
+    causality="input"
+    >
+    <Real start="0.0"/>
+  </ScalarVariable>
+  <!-- Index of variable = "5" -->
+  <ScalarVariable
+    name="robot_z"
+    valueReference="4"
+    variability="continuous"
+    causality="input"
+    >
+    <Real start="0.0"/>
+  </ScalarVariable>
+  <!-- Index of variable = "6" -->
+  <ScalarVariable
+    name="sensor1.ad_8bit1.ad_8bitblock1.half_lsb"
+    valueReference="5"
+    variability="continuous"
+    causality="local"
+    initial="calculated">
+    <Real/>
+  </ScalarVariable>
+  <!-- Index of variable = "7" -->
+  <ScalarVariable
+    name="sensor1.ad_8bit1.ad_8bitblock1.hold_signal"
+    valueReference="6"
+    variability="continuous"
+    causality="local"
+    initial="calculated">
+    <Real/>
+  </ScalarVariable>
+  <!-- Index of variable = "8" -->
+  <ScalarVariable
+    name="sensor1.ad_8bit1.ad_8bitblock1.lsb"
+    valueReference="7"
+    variability="continuous"
+    causality="local"
+    initial="calculated">
+    <Real/>
+  </ScalarVariable>
+  <!-- Index of variable = "9" -->
+  <ScalarVariable
+    name="sensor1.ad_8bit1.ad_8bitblock1.noise"
+    valueReference="8"
+    variability="continuous"
+    causality="local"
+    initial="calculated">
+    <Real/>
+  </ScalarVariable>
+  <!-- Index of variable = "10" -->
+  <ScalarVariable
+    name="sensor1.ad_8bit1.ad_8bitblock1.quantisized_signal"
+    valueReference="9"
+    variability="continuous"
+    causality="local"
+    initial="calculated">
+    <Real/>
+  </ScalarVariable>
+  <!-- Index of variable = "11" -->
+  <ScalarVariable
+    name="sensor1.ad_8bit1.ad_8bitblock1.windowed_signal"
+    valueReference="10"
+    variability="continuous"
+    causality="local"
+    initial="calculated">
+    <Real/>
+  </ScalarVariable>
+  <!-- Index of variable = "12" -->
+  <ScalarVariable
+    name="sensor1.ad_8bit1.i"
+    valueReference="11"
+    variability="continuous"
+    causality="local"
+    initial="calculated">
+    <Real/>
+  </ScalarVariable>
+  <!-- Index of variable = "13" -->
+  <ScalarVariable
+    name="sensor1.ambient_light1.i"
+    valueReference="12"
+    variability="continuous"
+    causality="local"
+    initial="calculated">
+    <Real/>
+  </ScalarVariable>
+  <!-- Index of variable = "14" -->
+  <ScalarVariable
+    name="sensor1.ambient_light1.o"
+    valueReference="13"
+    variability="continuous"
+    causality="local"
+    initial="calculated">
+    <Real/>
+  </ScalarVariable>
+  <!-- Index of variable = "15" -->
+  <ScalarVariable
+    name="sensor1.ambient_light1.reflected_power"
+    valueReference="14"
+    variability="continuous"
+    causality="local"
+    initial="calculated">
+    <Real/>
+  </ScalarVariable>
+  <!-- Index of variable = "16" -->
+  <ScalarVariable
+    name="sensor1.calculate_sensor_position1.rotated_x"
+    valueReference="15"
+    variability="continuous"
+    causality="local"
+    initial="calculated">
+    <Real/>
+  </ScalarVariable>
+  <!-- Index of variable = "17" -->
+  <ScalarVariable
+    name="sensor1.calculate_sensor_position1.rotated_y"
+    valueReference="16"
+    variability="continuous"
+    causality="local"
+    initial="calculated">
+    <Real/>
+  </ScalarVariable>
+  <!-- Index of variable = "18" -->
+  <ScalarVariable
+    name="sensor1.calculate_sensor_position1.sensor_position[1]"
+    valueReference="17"
+    variability="continuous"
+    causality="local"
+    initial="calculated">
+    <Real/>
+  </ScalarVariable>
+  <!-- Index of variable = "19" -->
+  <ScalarVariable
+    name="sensor1.calculate_sensor_position1.sensor_position[2]"
+    valueReference="18"
+    variability="continuous"
+    causality="local"
+    initial="calculated">
+    <Real/>
+  </ScalarVariable>
+  <!-- Index of variable = "20" -->
+  <ScalarVariable
+    name="sensor1.combitable2d1.y"
+    valueReference="19"
+    description="Connector of Real output signal"
+    variability="continuous"
+    causality="local"
+    initial="calculated">
+    <Real/>
+  </ScalarVariable>
+  <!-- Index of variable = "21" -->
+  <ScalarVariable
+    name="lf_position_x"
+    valueReference="20"
+    variability="fixed"
+    causality="parameter"
+    initial="exact">
+    <Real start="0.01"/>
+  </ScalarVariable>
+  <!-- Index of variable = "22" -->
+  <ScalarVariable
+    name="lf_position_y"
+    valueReference="21"
+    variability="fixed"
+    causality="parameter"
+    initial="exact">
+    <Real start="0.065"/>
+  </ScalarVariable>
+  <!-- Index of variable = "23" -->
+  <ScalarVariable
+    name="sensor1.ad_8bit1.ad_8bitblock1.bitPower"
+    valueReference="22"
+    variability="fixed"
+    causality="calculatedParameter"
+    initial="calculated">
+    <Real/>
+  </ScalarVariable>
+  <!-- Index of variable = "24" -->
+  <ScalarVariable
+    name="sensor1.ad_8bit1.ad_8bitblock1.bits"
+    valueReference="23"
+    variability="fixed"
+    causality="parameter"
+    initial="exact">
+    <Real start="8.0"/>
+  </ScalarVariable>
+  <!-- Index of variable = "25" -->
+  <ScalarVariable
+    name="sensor1.ad_8bit1.ad_8bitblock1.maximum"
+    valueReference="24"
+    variability="fixed"
+    causality="parameter"
+    initial="exact">
+    <Real start="255.0"/>
+  </ScalarVariable>
+  <!-- Index of variable = "26" -->
+  <ScalarVariable
+    name="sensor1.ad_8bit1.ad_8bitblock1.minimum"
+    valueReference="25"
+    variability="fixed"
+    causality="parameter"
+    initial="exact">
+    <Real start="0.0"/>
+  </ScalarVariable>
+  <!-- Index of variable = "27" -->
+  <ScalarVariable
+    name="sensor1.ambient_light1.ambient_light"
+    valueReference="26"
+    variability="fixed"
+    causality="parameter"
+    initial="exact">
+    <Real start="0.0"/>
+  </ScalarVariable>
+  <!-- Index of variable = "28" -->
+  <ScalarVariable
+    name="sensor1.ambient_light1.led_power"
+    valueReference="27"
+    variability="fixed"
+    causality="parameter"
+    initial="exact">
+    <Real start="5.0"/>
+  </ScalarVariable>
+  <!-- Index of variable = "29" -->
+  <ScalarVariable
+    name="sensor1.ambient_light1.rx_power_off"
+    valueReference="28"
+    variability="fixed"
+    causality="parameter"
+    initial="exact">
+    <Real start="0.5"/>
+  </ScalarVariable>
+  <!-- Index of variable = "30" -->
+  <ScalarVariable
+    name="sensor1.ambient_light1.rx_power_on"
+    valueReference="29"
+    variability="fixed"
+    causality="parameter"
+    initial="exact">
+    <Real start="4.5"/>
+  </ScalarVariable>
+  <!-- Index of variable = "31" -->
+  <ScalarVariable
+    name="sensor1.calculate_sensor_position1.lf_positions[1]"
+    valueReference="30"
+    variability="fixed"
+    causality="calculatedParameter"
+    initial="calculated">
+    <Real/>
+  </ScalarVariable>
+  <!-- Index of variable = "32" -->
+  <ScalarVariable
+    name="sensor1.calculate_sensor_position1.lf_positions[2]"
+    valueReference="31"
+    variability="fixed"
+    causality="calculatedParameter"
+    initial="calculated">
+    <Real/>
+  </ScalarVariable>
+  <!-- Index of variable = "33" -->
+  <ScalarVariable
+    name="sensor1.combitable2d1.tableOnFileRead"
+    valueReference="32"
+    description="= 1, if table was successfully read from file"
+    variability="fixed"
+    causality="calculatedParameter"
+    initial="calculated">
+    <Real/>
+  </ScalarVariable>
+  <!-- Index of variable = "34" -->
+  <ScalarVariable
+    name="sensor1.percentageto8bitvalue1.k"
+    valueReference="33"
+    variability="fixed"
+    causality="parameter"
+    initial="exact">
+    <Real start="255.0"/>
+  </ScalarVariable>
+  <!-- Index of variable = "35" -->
+  <ScalarVariable
+    name="sensor1.raw_to_reflectivity1.hi_input"
+    valueReference="34"
+    variability="fixed"
+    causality="parameter"
+    initial="exact">
+    <Real start="-1.0"/>
+  </ScalarVariable>
+  <!-- Index of variable = "36" -->
+  <ScalarVariable
+    name="sensor1.raw_to_reflectivity1.hi_output"
+    valueReference="35"
+    variability="fixed"
+    causality="parameter"
+    initial="exact">
+    <Real start="0.9"/>
+  </ScalarVariable>
+  <!-- Index of variable = "37" -->
+  <ScalarVariable
+    name="sensor1.raw_to_reflectivity1.lo_input"
+    valueReference="36"
+    variability="fixed"
+    causality="parameter"
+    initial="exact">
+    <Real start="-16777216.0"/>
+  </ScalarVariable>
+  <!-- Index of variable = "38" -->
+  <ScalarVariable
+    name="sensor1.raw_to_reflectivity1.lo_output"
+    valueReference="37"
+    variability="fixed"
+    causality="parameter"
+    initial="exact">
+    <Real start="0.1"/>
+  </ScalarVariable>
+  <!-- Index of variable = "39" -->
+  <ScalarVariable
+    name="sensor1.ad_8bit1.ad_8bitblock1.i"
+    valueReference="11"
+    variability="continuous"
+    causality="local"
+    >
+    <Real/>
+  </ScalarVariable>
+  <!-- Index of variable = "40" -->
+  <ScalarVariable
+    name="sensor1.ad_8bit1.ad_8bitblock1.noise_value"
+    valueReference="7"
+    variability="continuous"
+    causality="local"
+    >
+    <Real/>
+  </ScalarVariable>
+  <!-- Index of variable = "41" -->
+  <ScalarVariable
+    name="sensor1.ad_8bit1.ad_8bitblock1.o"
+    valueReference="0"
+    variability="continuous"
+    causality="local"
+    >
+    <Real/>
+  </ScalarVariable>
+  <!-- Index of variable = "42" -->
+  <ScalarVariable
+    name="sensor1.ad_8bit1.o"
+    valueReference="0"
+    variability="continuous"
+    causality="local"
+    >
+    <Real/>
+  </ScalarVariable>
+  <!-- Index of variable = "43" -->
+  <ScalarVariable
+    name="sensor1.calculate_sensor_position1.robot_state[1]"
+    valueReference="2"
+    variability="continuous"
+    causality="local"
+    >
+    <Real/>
+  </ScalarVariable>
+  <!-- Index of variable = "44" -->
+  <ScalarVariable
+    name="sensor1.calculate_sensor_position1.robot_state[2]"
+    valueReference="3"
+    variability="continuous"
+    causality="local"
+    >
+    <Real/>
+  </ScalarVariable>
+  <!-- Index of variable = "45" -->
+  <ScalarVariable
+    name="sensor1.calculate_sensor_position1.robot_state[3]"
+    valueReference="4"
+    variability="continuous"
+    causality="local"
+    >
+    <Real/>
+  </ScalarVariable>
+  <!-- Index of variable = "46" -->
+  <ScalarVariable
+    name="sensor1.calculate_sensor_position1.robot_state[4]"
+    valueReference="1"
+    variability="continuous"
+    causality="local"
+    >
+    <Real/>
+  </ScalarVariable>
+  <!-- Index of variable = "47" -->
+  <ScalarVariable
+    name="sensor1.combitable2d1.u1"
+    valueReference="18"
+    description="Connector of Real input signal 1"
+    variability="continuous"
+    causality="local"
+    >
+    <Real/>
+  </ScalarVariable>
+  <!-- Index of variable = "48" -->
+  <ScalarVariable
+    name="sensor1.combitable2d1.u2"
+    valueReference="17"
+    description="Connector of Real input signal 2"
+    variability="continuous"
+    causality="local"
+    >
+    <Real/>
+  </ScalarVariable>
+  <!-- Index of variable = "49" -->
+  <ScalarVariable
+    name="sensor1.percentageto8bitvalue1.i"
+    valueReference="13"
+    variability="continuous"
+    causality="local"
+    >
+    <Real/>
+  </ScalarVariable>
+  <!-- Index of variable = "50" -->
+  <ScalarVariable
+    name="sensor1.percentageto8bitvalue1.o"
+    valueReference="11"
+    variability="continuous"
+    causality="local"
+    >
+    <Real/>
+  </ScalarVariable>
+  <!-- Index of variable = "51" -->
+  <ScalarVariable
+    name="sensor1.raw_to_reflectivity1.raw_map_reading"
+    valueReference="19"
+    variability="continuous"
+    causality="local"
+    >
+    <Real/>
+  </ScalarVariable>
+  <!-- Index of variable = "52" -->
+  <ScalarVariable
+    name="sensor1.raw_to_reflectivity1.reflectivity"
+    valueReference="12"
+    variability="continuous"
+    causality="local"
+    >
+    <Real/>
+  </ScalarVariable>
+  <!-- Index of variable = "53" -->
+  <ScalarVariable
+    name="sensor1.robot_state[1]"
+    valueReference="2"
+    variability="continuous"
+    causality="local"
+    >
+    <Real/>
+  </ScalarVariable>
+  <!-- Index of variable = "54" -->
+  <ScalarVariable
+    name="sensor1.robot_state[2]"
+    valueReference="3"
+    variability="continuous"
+    causality="local"
+    >
+    <Real/>
+  </ScalarVariable>
+  <!-- Index of variable = "55" -->
+  <ScalarVariable
+    name="sensor1.robot_state[3]"
+    valueReference="4"
+    variability="continuous"
+    causality="local"
+    >
+    <Real/>
+  </ScalarVariable>
+  <!-- Index of variable = "56" -->
+  <ScalarVariable
+    name="sensor1.robot_state[4]"
+    valueReference="1"
+    variability="continuous"
+    causality="local"
+    >
+    <Real/>
+  </ScalarVariable>
+  <!-- Index of variable = "57" -->
+  <ScalarVariable
+    name="sensor1.sensor_output"
+    valueReference="0"
+    variability="continuous"
+    causality="local"
+    >
+    <Real/>
+  </ScalarVariable>
+  <!-- Index of variable = "58" -->
+  <ScalarVariable
+    name="sensor1.ad_8bit1.ad_8bitblock1.noise_level"
+    valueReference="0"
+    variability="discrete"
+    causality="local"
+    initial="calculated">
+    <Integer/>
+  </ScalarVariable>
+  <!-- Index of variable = "59" -->
+  <ScalarVariable
+    name="sensor1.combitable2d1.smoothness"
+    valueReference="1"
+    description="Smoothness of table interpolation"
+    variability="fixed"
+    causality="calculatedParameter"
+    initial="calculated">
+    <Enumeration declaredType="Modelica.Blocks.Types.Smoothness"/>
+  </ScalarVariable>
+  <!-- Index of variable = "60" -->
+  <ScalarVariable
+    name="sensor1.combitable2d1.tableOnFile"
+    valueReference="0"
+    description="= true, if table is defined on file or in function usertab"
+    variability="fixed"
+    causality="calculatedParameter"
+    initial="calculated">
+    <Boolean/>
+  </ScalarVariable>
+  <!-- Index of variable = "61" -->
+  <ScalarVariable
+    name="sensor1.combitable2d1.verboseRead"
+    valueReference="1"
+    description="= true, if info message that file is loading is to be printed"
+    variability="fixed"
+    causality="parameter"
+    initial="exact">
+    <Boolean start="true"/>
+  </ScalarVariable>
+  <!-- Index of variable = "62" -->
+  <ScalarVariable
+    name="sensor1.combitable2d1.fileName"
+    valueReference="0"
+    description="File where matrix is stored"
+    variability="fixed"
+    causality="calculatedParameter"
+    initial="calculated">
+    <String/>
+  </ScalarVariable>
+  <!-- Index of variable = "63" -->
+  <ScalarVariable
+    name="sensor1.combitable2d1.tableName"
+    valueReference="1"
+    description="Table name on file or in function usertab (see docu)"
+    variability="fixed"
+    causality="calculatedParameter"
+    initial="calculated">
+    <String/>
+  </ScalarVariable>
+  <!-- Index of variable = "64" -->
+  <ScalarVariable
+    name="sensor1.fileNameMapTable"
+    valueReference="2"
+    description="File with map data"
+    variability="fixed"
+    causality="calculatedParameter"
+    initial="calculated">
+    <String/>
+  </ScalarVariable>
+  </ModelVariables>
+  <ModelStructure>
+    <Outputs>
+      <Unknown index="1" dependencies="2 3 4" dependenciesKind="dependent dependent dependent" />
+    </Outputs>
+  </ModelStructure>
+</fmiModelDescription>
