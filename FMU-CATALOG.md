@@ -3,7 +3,7 @@
 Paths below are relative to this repository. Unless otherwise noted, the
 Maestro origin is relative to the root of `INTO-CPS-Association/maestro`.
 The output archive keeps the same FMI version, group and model path. The default
-build contains all rows except the explicitly marked beta fixture.
+build contains all rows.
 
 ## FMI 2
 
@@ -42,7 +42,7 @@ build contains all rows except the explicitly marked beta fixture.
 | `fmi3/reference/BouncingBall` | `modelica/Reference-FMUs` release `v0.0.23` |
 | `fmi3/reference/Feedthrough` | `modelica/Reference-FMUs` release `v0.0.23` |
 | `fmi3/siggen-feedthrough/SignalGenerator` | `maestro/src/test/resources/fmi3/reference/siggen-feedthrough/SignalGenerator.fmu` |
-| `fmi3/jni/fmi3functiontest` | `org.intocps.maestro.fmi`, tag `Release/1.5.0`, `jnifmuapi/src/test/resources/fmus/fmi3/fmi3functiontest`. Beta fixture, excluded from default build and release. |
+| `fmi3/jni/fmi3functiontest` | `org.intocps.maestro.fmi`, tag `Release/1.5.0`, `jnifmuapi/src/test/resources/fmus/fmi3/fmi3functiontest`. Included in the default build and release with final FMI `3.0` metadata. |
 
 ## Variants And Changes
 

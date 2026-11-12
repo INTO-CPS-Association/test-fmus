@@ -70,11 +70,12 @@ it does not itself publish a release.
 ## Scope And Provenance
 
 Three Overture standalone exports containing `.vdmrt` files are excluded.
-The JNI FMI 3 function test is retained under `fmi3/jni`, but defaults to off:
-its model description declares `3.0-beta.3`, not final FMI 3. Enable it only
-for legacy testing with `-DFMU_INCLUDE_LEGACY_BETA=ON`. It is not included in
-the combined workflow artifacts. Its token was changed to match the JNI test
-source; the original Maestro archive declares a different token.
+The JNI FMI 3 function test under `fmi3/jni` is included in the default build
+and release for Maestro testing. Its model description declares final FMI `3.0`
+and the fixture builds against the FMI Standard 3.0.2 headers. Disable it for a
+build without the JNI function-test fixture with
+`-DFMU_INCLUDE_FMI3_FUNCTIONTEST=OFF`. Its token matches the JNI test source; the
+original Maestro archive declares a different token.
 
 See [FMU-CATALOG.md](FMU-CATALOG.md) for individual model origins, preserved
 variants and known changes.
@@ -111,9 +112,9 @@ all Maestro test inputs. The following are not in the default release:
 	binaries. They were exported by Altair Activate without model sources.
 - The pump and sink `mocked_fmus` used by code-generation tests have no native
 	implementation sources; they are test doubles, not rebuilt simulation FMUs.
-- The binary-only FMI 3 function-test archive has a source-backed counterpart in
-	`fmi3/jni`, but it is a beta fixture with a changed token and is opt-in as
-	described above.
+- The binary-only FMI 3 function-test archive is replaced by the source-backed
+	`fmi3/jni/fmi3functiontest` fixture in the default release. The released test
+	model description declares FMI `3.0` and uses the pinned 3.0.2 headers.
 - The line-follower repository's `3DanimationFMU.fmu` also has no source files;
 	its two controllers contain VDM-RT. Its other six robot FMUs are included.
 
