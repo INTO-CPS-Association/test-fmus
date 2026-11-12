@@ -85,7 +85,7 @@ variants and known changes.
 | `fmi2/legacy` | Original `test-fmus` master-branch projects |
 | Tanks, controllers, rollback models, pump, sink and mass-spring-dampers | Maestro test archives and the historical `INTO-CPS-Association/test-fmus` development branch |
 | Robot body and sensors, three-tank models | Maestro test archives |
-| FMI 2 and experimental FMI 3 JNI tests | `INTO-CPS-Association/org.intocps.maestro.fmi`, tag `Release/1.5.0` |
+| FMI 2 and FMI 3 JNI test fixtures | `INTO-CPS-Association/org.intocps.maestro.fmi`, tag `Release/1.5.0` |
 | FMI 3 BouncingBall and Feedthrough | `modelica/Reference-FMUs`, tag `v0.0.23` |
 | FMI 3 SignalGenerator | Maestro test archive, Reference-FMUs-derived |
 | OpenModelica runtime | `OpenModelica/OMCompiler`, commit `d19f8168993148b01716ef183b2877ecd44b006d` |
@@ -106,8 +106,10 @@ Source-backed archives without VDM-RT are represented in the catalog, with
 distinct controller metadata retained. This is not a complete replacement for
 all Maestro test inputs. The following are not in the default release:
 
-- The standalone and interpreter-based controllers with `.vdmrt` files,
-	including the line-follower, ESA, three-tank and GA controllers, are excluded.
+- The standalone and interpreter-based controllers that require VDM-RT at
+	runtime, including the line-follower, ESA and GA controllers, are excluded.
+	The three-tank standalone controller is included because its FMU embeds the
+	generated C implementation; its `.vdmrt` files are documentation only.
 - The `periodic_clock` and `sinewave_array` FMI 3 archives contain only Linux
 	binaries. They were exported by Altair Activate without model sources.
 - The pump and sink `mocked_fmus` used by code-generation tests have no native

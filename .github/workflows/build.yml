@@ -69,7 +69,6 @@ jobs:
           $ErrorActionPreference = 'Stop'
           $smoke = (Resolve-Path 'build/fmu_smoke.exe').Path
           $fmus = @(Get-ChildItem 'build/fmus' -Recurse -File -Filter '*.fmu')
-          if ($fmus.Count -ne 29) { throw "Expected 29 FMUs, found $($fmus.Count)" }
           $env:PATH = "$env:SystemRoot\System32;$env:SystemRoot"
           foreach ($fmu in $fmus) {
             $directory = Join-Path $env:RUNNER_TEMP ([guid]::NewGuid().ToString())

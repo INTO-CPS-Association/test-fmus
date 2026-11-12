@@ -34,6 +34,7 @@ build contains all rows.
 | `fmi2/mass-spring-damper/MassSpringDamper2` | `maestro/src/test/resources/mass_spring_damper/MassSpringDamper2.fmu` |
 | `fmi2/three-tank/threewatertank1` | `maestro/src/test/resources/three_tank/threewatertank1.fmu` |
 | `fmi2/three-tank/threewatertank2` | `maestro/src/test/resources/three_tank/threewatertank2.fmu` |
+| `fmi2/three-tank/WaterTankController_Standalone` | `maestro/src/test/resources/three_tank/WaterTankController_Standalone.fmu` (embedded C sources; `.vdmrt` files are retained as regeneration documentation) |
 
 ## FMI 3
 
@@ -58,6 +59,9 @@ build contains all rows.
   `rollback-end` were changed from hyphenated values to `watertank_c` or
   `rollback_end`; the binary names match. Both rollback C++ sources include
   `stdint.h` for GCC.
+- The three-tank standalone controller is built from its embedded C sources and
+  VDM runtime. Its `.vdmrt` files are included only as source/regeneration
+  documentation; the FMU does not require VDM-RT at runtime.
 - JNI metadata uses the tokens expected by the native source. The FMI 2
   function-test `maxOutputDerivativeOrder` was corrected from `false` to `0`.
 - The OpenModelica sensors retain fixes for missing `ctype.h` and `debugString`
